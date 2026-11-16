@@ -68,6 +68,7 @@ This is a running list of Nicola's instructions for the dashboard and the status
 | R60 | 2026-11-10 | The description lines at the top of the CSVs: commas should not break them across cells; leave out text that only makes sense on the chart. | built 2026-11-10: each description line is one quoted field, followed by a blank line and the table; chart-only phrases removed or rewritten via `csvDrop` in `config.js`. Checked in headless Edge on every CSV of all four tabs; **tested by Nicola 2026-11-10** |
 | R61 | 2026-11-10 | Add a button at the top of the region and commodity drop-downs that clears all selections, so a new set can be chosen without unticking each box. The dashboard must still open on the six CG regions. | built 2026-11-10: "Clear all" in both drop-downs (greyed out when nothing is selected; the drop-down stays open). No region: charts that need one show `noRegions` (also replaces the misleading "No data for the selected regions" and the trade tab's "World is not shown…"). No commodity: each tab shows Rice with `comNoneNote` until one is ticked. Defaults unchanged: a fresh launch, or a reload after "Clear all", opens on the six CG regions and Rice. Checked in headless Edge by clicking; **tested by Nicola 2026-11-10** |
 | R62 | 2026-11-12 | At the end of each page, under the attribution line, add: "This dashboard is a snapshot of the GOR results, with further updates and improvements anticipated over the coming months." | built 2026-11-12: second line in the footer of `index.html`, in the attribution's small grey style; the footer is shared by all four tabs, so one line covers every page. Attribution date updated to 2026-11-12 (R58 wording unchanged); **tested by Nicola 2026-11-12** |
+| R63 | 2026-11-13 | Production & demand tab: add an Oxford comma to the title "Production, total demand and food demand". | built 2026-11-13: title now "Production, total demand, and food demand" (`app.js`, `prodVsDemand` card; the CSV download's first line follows). Not checked in the browser |
 
 ## Data modifications
 
@@ -86,6 +87,54 @@ What users see: M1 is explained in a note on the hunger map, charts and ranking 
 Not a data change, but related: World has no net trade in IMPACT, so it is skipped on the trade tab (R33, `tradeExcluded` in `config.js`).
 
 Diary entries follow, newest first.
+
+---
+
+## 2026-11-16: repository move finished (admin access, Pages check, local remote)
+
+Follow-up to 2026-11-13, when the repository was transferred and Nicola lost admin access. This entry, with the 2026-11-13 one and `memos/learnings.md` ("Git and GitHub"), records the whole move so it can be retraced.
+
+**Steps**
+1. **Admin access.** Nicola asked IFPRI's GitHub admins for Admin access on the transferred repository and got it; the Settings tab is visible again.
+2. **Organization name: `IFPRI`.** The repository is now `IFPRI/GOR2026-DASHBOARD`. (Claude could not look this up: the GitHub command-line tool `gh` isn't installed on this machine. The name is in the browser's address bar: `github.com/<org-name>/GOR2026-DASHBOARD`.)
+3. **Pages settings checked** (step 3 of the transfer checklist in `learnings.md`). In the repository on GitHub: Settings → Pages → "Build and deployment". Source "Deploy from a branch", branch `main`, folder `/docs`: all carried over from the personal repository. The "Your site is live at …" line gives the new public address, `https://ifpri.github.io/GOR2026-DASHBOARD/`. The old `nicimpact.github.io` address no longer works (GitHub doesn't redirect Pages sites).
+4. **Local copy pointed at the new address.** Nicola typed these in the VS Code terminal (Terminal → New Terminal), in `c:\GOR Dashboard`:
+   - `git remote set-url origin git@github.com:IFPRI/GOR2026-DASHBOARD`: changes only where this folder pulls from and pushes to; files and history are untouched. Prints nothing when it works. (Typed without `.git` at the end; GitHub accepts both forms.)
+   - `git remote -v`: both lines (fetch and push) show the new address.
+   - `git fetch`: tests the connection. It asked for the **SSH key passphrase** (normal: the key is passphrase-protected, and Git asks each time it talks to GitHub), then printed nothing, which means GitHub had nothing the local copy lacked.
+   - `git status`: "Your branch is up to date with 'origin/main'", confirming the connection to the new address works.
+5. `CLAUDE.md` repository paragraph updated with the organization name, the new Pages address and the new remote.
+
+**Decisions and why**
+- **Remote changed by hand in the terminal**, at Nicola's request, to learn the steps. Claude gave the commands; Nicola ran them.
+- **The SSH key needed no change.** It belongs to Nicola's personal GitHub account, which now has Admin on the organization's repository, so the same key works.
+- Possible error messages, kept here for next time: `Repository not found` after `set-url` usually means a typo in the organization or repository name (fix by running `set-url` again); `Permission denied (publickey)` means GitHub didn't accept the SSH key.
+
+**Open to-dos**
+- Commit and push the memo and `CLAUDE.md` changes; this first push to the new address confirms pushing works too.
+- Optional: set up the Windows OpenSSH agent so the passphrase isn't asked at every fetch/pull/push (Claude can walk through it).
+- Use the new address `https://ifpri.github.io/GOR2026-DASHBOARD/` wherever the dashboard is shared.
+
+---
+
+## 2026-11-13: Oxford comma (R63); repository moved to IFPRI's GitHub organization
+
+**Steps**
+- **R63.** Added an Oxford comma to the production-vs-demand chart title in `docs/js/app.js`. This title is written directly in `app.js` rather than in `config.js`, where most wording lives; left there for now.
+- **Repository transfer.** Nicola asked whether the move to IFPRI's institutional GitHub had been discussed before. It had (2026-11-03; steps in `memos/learnings.md`, "Git and GitHub"). Nicola confirmed having permission to transfer into the organization, and Claude went through the steps again: commit and push first; check the link hasn't been shared; Settings → General → Danger Zone → Transfer ownership; check Pages; then update the local remote and `CLAUDE.md`. The confirmation box asks for the repository's current name exactly as the dialog shows it (possibly with the owner, `NicIMPACT/GOR2026-DASHBOARD`).
+- Nicola transferred the repository. **The dashboard loads fine at the organization's Pages address**, so Pages carried over.
+- **Problem: Nicola lost admin access.** After the transfer, the Settings tab is not visible to Nicola. Ownership passed to the organization, and Nicola, not being an organization owner, has only the members' default access to the repository.
+
+**Decisions and why**
+- **Ask the organization's GitHub admins for Admin access** on the repository, directly or through a team. Admin is needed to see Settings (Pages). Write alone would allow committing and pushing from VS Code but not managing settings; that's the fallback if the admins prefer to keep Admin.
+- **Local copy left unchanged for now.** `c:\GOR Dashboard` keeps the full history, and its remote (`origin`) still points to `NicIMPACT/GOR2026-DASHBOARD`, which GitHub redirects. The remote and the repository line in `CLAUDE.md` will be updated once the organization's GitHub name is known and access is sorted.
+- Paused here at Nicola's request.
+
+**Open to-dos**
+- Nicola to ask the IFPRI GitHub admins for Admin access on the transferred repository.
+- Tell Claude the organization's GitHub name. Then: `git remote set-url origin git@github.com:<org-name>/GOR2026-DASHBOARD.git`, test with `git fetch`, and update the repository line and Pages address in `CLAUDE.md`.
+- Don't create a new `GOR2026-DASHBOARD` repository in the personal account (it would break the redirects).
+- Commit and push R63 (after access is restored, or now through the redirect if Write access is already in place).
 
 ---
 

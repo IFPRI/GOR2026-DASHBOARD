@@ -8,7 +8,7 @@ Data for a dashboard for the IFPRI **Global Outlook Report (GOR) 2026** (Global 
 
 The plan is to build a static web dashboard from the four `*_REF.csv` datasets. The data and code will go in a GitHub repository and be published with GitHub Pages, so the dashboard must run entirely in the browser, with no server backend. Nicola confirmed on 2026-10-20 that all the data is cleared for public release.
 
-The repository is `NicIMPACT/GOR2026-DASHBOARD` on GitHub (remote `origin`, branch `main`). GitHub Pages serves it from `/docs` (enabled by Nicola, 2026-10-22), presumably at https://nicimpact.github.io/GOR2026-DASHBOARD/.
+The repository is `IFPRI/GOR2026-DASHBOARD` on GitHub (branch `main`), in IFPRI's GitHub organization. Nicola transferred it there on 2026-11-13 from the personal account (`NicIMPACT/GOR2026-DASHBOARD`) and has Admin access on it (granted by 2026-11-16). The local remote `origin` points to `git@github.com:IFPRI/GOR2026-DASHBOARD` (updated 2026-11-16). GitHub Pages serves the site from `main`, `/docs` (enabled by Nicola 2026-10-22, confirmed after the transfer 2026-11-16), at `https://ifpri.github.io/GOR2026-DASHBOARD/`. The steps of the move are in `memos/progress.md` (2026-11-13 and 2026-11-16).
 
 ## Dashboard: commands and architecture
 
