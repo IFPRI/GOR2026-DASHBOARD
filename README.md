@@ -13,30 +13,6 @@ It is a static website (HTML, CSS and JavaScript), published with GitHub Pages f
 | `scripts/build_data.py` | Converts the CSVs and metadata into `docs/data/*.json` |
 | `docs/` | The website: `index.html`, `css/`, `js/config.js` (labels, units, colours), `js/app.js`, `data/` |
 
-## Updating the data
-
-After changing any `*_REF.csv` or metadata file, rebuild the browser data and commit the result:
-
-```
-python scripts/build_data.py
-```
-
-This requires Python 3 with `pandas` and `openpyxl`. The script stops with an error if the data contain a region or commodity that is missing from the metadata.
-
-## Previewing locally
-
-Browsers block data loading from `file://`, so serve the folder instead:
-
-```
-python -m http.server 8000 -d docs
-```
-
-Then open <http://localhost:8000>.
-
-## Publishing on GitHub Pages
-
-In the repository, go to Settings → Pages. Under "Build and deployment", choose "Deploy from a branch", then select the branch (e.g. `main`) and the `/docs` folder. The site appears at `https://<user-or-org>.github.io/<repository>/`.
-
 ## Notes
 
 - Charts use [Plotly.js](https://plotly.com/javascript/) 2.35.2 (MIT licence), loaded from the jsDelivr CDN.
