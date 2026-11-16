@@ -158,5 +158,38 @@ git pull
 - **Uncommitted local changes.** If the web edit touched a file that also has uncommitted local changes, `git pull` refuses, saying local changes would be overwritten. Commit the local change first, then pull; Git then merges the two edits. If it reports a **conflict** (both edits changed the same lines), ask Claude for help.
 - **Habit, now that edits can happen in two places:** run `git pull` before starting to work locally, so the local copy is never behind GitHub when you commit. Otherwise the push is rejected (see the table above) and you have to pull then.
 
+**Nicola's question (2026-11-16):** does `git pull` need anything, like a message? Claude's answer follows.
+
+Usually not. There are two cases:
+
+1. **No new local commits** (the usual case). Git moves the local copy forward to match GitHub (a "fast-forward"). No message needed. It prints `Updating old..new`, `Fast-forward` and the list of changed files.
+2. **New commits on both sides** (e.g. a file edited on GitHub *and* a local commit since the last pull). The histories have **diverged**, and Git must combine them with a **merge commit**. Depending on the Git version it either:
+   - stops with *"You have divergent branches and need to specify how to reconcile them"*. Nothing has changed yet; run `git pull --no-rebase` to merge; or
+   - opens an editor for the merge message, with a ready-made message ("Merge branch 'main' of …"). Save and close: in VS Code, close the tab; in the terminal's full-screen Vim editor (`~` down the left side), type `:wq` and Enter.
+
+   After the merge, `git push` sends it to GitHub.
+
+To avoid case 2: `git pull` **before** committing local changes (fine as long as they don't touch the file edited on GitHub).
+
+*What happened in practice (2026-11-16).* Nicola edited `README.md` on GitHub (commit `abdfc8b`, removing the sections on updating the data, previewing locally and part of publishing) and, separately, committed the memo files locally (`dccb09a`). `git pull` then found the two sides diverged and merged them. No conflict, since the two commits touched different files, but the merge stopped half-way, with `git status` showing:
+
+```
+Your branch and 'origin/main' have diverged,
+and have 1 and 1 different commits each, respectively.
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+```
+
+This means the merge is done but not yet saved. To finish it:
+
+```
+git commit --no-edit
+git push
+```
+
+`--no-edit` keeps Git's ready-made message, so no editor opens. Afterwards `git status` says *"Your branch is up to date with 'origin/main'"*. The resulting merge commit (`05e2764`) ended up with Git's instruction text ("# Please enter a commit message…") inside its message, which happens when the message is saved without Git's usual clean-up (e.g. through the VS Code commit box). Harmless; it was left as is, because fixing an already-pushed commit means rewriting GitHub's history (a force push), which isn't worth it.
+
+Typing a git command into the Claude chat doesn't run it: git commands go in the VS Code terminal (Terminal → New Terminal).
+
 ---
 *Produced by Claude (Anthropic), an AI model, at the request of Nicola Cenacchi (IFPRI), 2026-11-16.*
