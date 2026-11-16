@@ -110,8 +110,12 @@ Follow-up to 2026-11-13, when the repository was transferred and Nicola lost adm
 - **The SSH key needed no change.** It belongs to Nicola's personal GitHub account, which now has Admin on the organization's repository, so the same key works.
 - Possible error messages, kept here for next time: `Repository not found` after `set-url` usually means a typo in the organization or repository name (fix by running `set-url` again); `Permission denied (publickey)` means GitHub didn't accept the SSH key.
 
+**Closed the same day**
+- Nicola confirmed the Pages address `https://ifpri.github.io/GOR2026-DASHBOARD/` against the "Your site is live at …" line in Settings → Pages.
+- Nicola committed and pushed the memo and `CLAUDE.md` changes (commit `ae7333d`). This was the first push to the new address, and it worked: `git status` shows the local copy in sync with `origin/main`.
+- Nicola prefers to keep committing and pushing manually for now; Claude leaves changes uncommitted and lists the changed files.
+
 **Open to-dos**
-- Commit and push the memo and `CLAUDE.md` changes; this first push to the new address confirms pushing works too.
 - Optional: set up the Windows OpenSSH agent so the passphrase isn't asked at every fetch/pull/push (Claude can walk through it).
 - Use the new address `https://ifpri.github.io/GOR2026-DASHBOARD/` wherever the dashboard is shared.
 

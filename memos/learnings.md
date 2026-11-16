@@ -135,5 +135,28 @@ GitHub can **transfer** a repository from a personal account to an organization.
 
 *Alternative, not recommended:* an org owner creates an empty repo and Nicola pushes the local copy there (`git push --mirror`). History is kept, but Pages and other settings must be set up again, the old repo lingers, and nothing redirects.
 
+*What happened in practice:* the move was done on 2026-11-13 and finished on 2026-11-16. The repository is now `IFPRI/GOR2026-DASHBOARD`, at `https://ifpri.github.io/GOR2026-DASHBOARD/`. The step-by-step record is in `memos/progress.md` (2026-11-13 and 2026-11-16).
+
+**Nicola's question (2026-11-16):** after editing a file directly on GitHub, is `git fetch` the command to see what changed? Claude's answer follows.
+
+Partly. `git fetch` downloads the change but doesn't touch the local files. That lets you look before applying it:
+
+```
+git fetch
+git log --oneline main..origin/main
+git diff main origin/main
+git pull
+```
+
+1. **`git fetch`** downloads from GitHub (it asks for the SSH key passphrase). If there's something new, it ends with a line like `main -> origin/main`; if it prints nothing, GitHub had nothing new.
+2. **`git log --oneline main..origin/main`** lists the commits on GitHub that aren't on this computer yet. A web edit shows up as one commit.
+3. **`git diff main origin/main`** shows the changed lines: `+` (green) added, `-` (red) removed. Press `q` to leave the scrolling view.
+4. **`git pull`** applies the change to the local files. On its own, `git pull` does the fetch and this step together; the two-step route lets you look first.
+
+*Things to watch*
+
+- **Uncommitted local changes.** If the web edit touched a file that also has uncommitted local changes, `git pull` refuses, saying local changes would be overwritten. Commit the local change first, then pull; Git then merges the two edits. If it reports a **conflict** (both edits changed the same lines), ask Claude for help.
+- **Habit, now that edits can happen in two places:** run `git pull` before starting to work locally, so the local copy is never behind GitHub when you commit. Otherwise the push is rejected (see the table above) and you have to pull then.
+
 ---
-*Produced by Claude (Anthropic), an AI model, at the request of Nicola Cenacchi (IFPRI), 2026-11-09.*
+*Produced by Claude (Anthropic), an AI model, at the request of Nicola Cenacchi (IFPRI), 2026-11-16.*
