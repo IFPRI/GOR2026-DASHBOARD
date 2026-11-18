@@ -31,9 +31,9 @@ window.GOR_CONFIG = {
   hungerGoal: { value: 5, label: "5% Threshold", mapLabel: "Below 5% (threshold)", color: "#000000" },
 
   // Negative risk-of-hunger values (a model artefact) are written as 0 by build_data.py (R26).
-  // Burundi and Eritrea are shown as no data instead (R31; HUNGER_NO_DATA in build_data.py),
-  // but the note no longer names them (Nicola, 2026-11-10, R53).
-  hungerClipNote: "Negative values in the model output are shown as 0.",
+  // Burundi and Eritrea are shown as no data instead (R31; HUNGER_NO_DATA in build_data.py).
+  // The on-screen note "Negative values in the model output are shown as 0." (hungerClipNote)
+  // was removed from the Food security tab at Nicola's request (2026-11-17, R64).
 
   // Fixed map classes for share at risk, so the 5% goal is always a class edge.
   shareBins: [5, 10, 15, 25],

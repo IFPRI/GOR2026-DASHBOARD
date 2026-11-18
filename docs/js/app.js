@@ -1232,22 +1232,23 @@
 
   function renderFood(ds) {
     const ind = state.indicator.food;
-    const share = ind === "Share Pop at risk of hunger", clip = ind === "Kcal pc" ? "" : ` ${C.hungerClipNote}`;
-    mapChart(card("food-map", `${pLabel(ind)}, ${state.year}`, mapSub(pUnit(ind)) + clip, { wide: true, map: true }),
+    // The note on negative values shown as 0 was removed from this tab (R64); the zeroing itself (R26) stays.
+    const share = ind === "Share Pop at risk of hunger";
+    mapChart(card("food-map", `${pLabel(ind)}, ${state.year}`, mapSub(pUnit(ind)), { wide: true, map: true }),
       ds, ind, "-", share ? "share" : undefined);
     // Shares are not indexed: values near or below zero make an index meaningless.
     regionLines(card("share-line", "Share of population at risk of hunger",
-      `${lineSub(pUnit("Share Pop at risk of hunger"), false)} Dashed line: ${C.hungerGoal.label}. ${C.hungerClipNote}` +
+      `${lineSub(pUnit("Share Pop at risk of hunger"), false)} Dashed line: ${C.hungerGoal.label}.` +
       (state.index ? " Shown as values: an index is not meaningful for shares." : "")),
       ds, "Share Pop at risk of hunger", ["-"], { ref: C.hungerGoal });
-    regionYearBars(card("pop-bars", "Population at risk of hunger", `${pUnit("Pop at risk of hunger")}, ${C.popBarYears.join(", ")}, by region. ${C.hungerClipNote}`),
+    regionYearBars(card("pop-bars", "Population at risk of hunger", `${pUnit("Pop at risk of hunger")}, ${C.popBarYears.join(", ")}, by region.`),
       ds, "Pop at risk of hunger", "-", C.popBarYears);
     regionLines(card("kcal-line", "Calorie availability", lineSub(pUnit("Kcal pc"))), ds, "Kcal pc", ["-"], { indexable: true });
     kcalByGroup(card("kcal-groups",
       `Calorie availability by food group, ${state.year === YEARS[0] ? YEARS[0] : `${YEARS[0]} and ${state.year}`}`,
       `${pUnit("Kcal pc by Commodity")}. Choose the second year with "Year" at the top.`), ds);
     const asc = ind === "Kcal pc";
-    ranking(card("food-rank", `${asc ? "Lowest" : "Highest"} 15 countries: ${pLabel(ind).toLowerCase()}, ${state.year}`, pUnit(ind) + (asc ? "" : `.${clip}`), { wide: true }),
+    ranking(card("food-rank", `${asc ? "Lowest" : "Highest"} 15 countries: ${pLabel(ind).toLowerCase()}, ${state.year}`, pUnit(ind), { wide: true }),
       ds, ind, "-", { asc });
   }
 
